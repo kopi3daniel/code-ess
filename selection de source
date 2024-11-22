@@ -1,0 +1,60 @@
+#include <SoftwareSerial.h>
+
+SoftwareSerial mySerial(3, 2); // RX, TX
+
+char c; 
+String str;
+String msg;
+long tempss;
+long tempsss;
+
+void setup() {
+   Serial.begin(9600);
+  while (!Serial) {
+    Serial.println("arduino with 9600 is ready"); // wait for serial port to connect. Needed for native USB port only
+  }
+  mySerial.begin(9600);
+  delay(10000);
+  Serial.println("sim");
+ // pinMode(12);
+}
+
+void loop() {
+
+  msg="kula weye kikishwa";
+  
+  messagerEnvoie();
+
+}
+
+
+void envoiesms(String numero , String sms) {
+  mySerial.println("AT");
+Serial.println("AT");
+  delay(200);
+  mySerial.println("AT+CMGF=1");
+  Serial.println("AT+CMGF=1");
+  delay(200);
+  mySerial.print("AT+CMGS=\"");
+  Serial.println("AT+CMGS=\"");
+
+  mySerial.print(numero);
+  Serial.println(numero);
+  mySerial.println("\"");
+  delay(200);
+  mySerial.print(sms);Serial.println(sms);
+  delay(1000);
+  mySerial.write(26);
+  delay (500);
+}
+void messagerEnvoie(){
+  
+  
+  // msg =String(phValue)+String("PH   ")+String(sensor::tds)+String("TDS  ")+String(sensor::ec, 2)+String("EC  ")+String(cm)+String("litre  ")+String(sensorValue)+String("gaz  ")+String(sensor::waterTemp,2)+String("temperature  ");
+  
+  if ((millis() - tempsss) > 2000) {
+     tempsss = millis();
+     envoiesms("+24397752762",msg);
+     envoiesms("+243998762341",msg);
+   }
+}
